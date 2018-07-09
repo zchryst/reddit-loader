@@ -1,12 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, Button, View } from 'react-native';
+
+import Feed from './components/Feed';
 
 class App extends React.Component {
 
 
   constructor(props) {
     super(props);
-    this.state = { data: { earthPornData: [], peopleDyingData: [] }}
+    this.state = {
+      feed: null,
+      data: { earthPornData: [], peopleDyingData: [] },
+    }
   }
 
   componentDidMount() {
@@ -34,7 +39,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { data } = this.state;
+    const { feed, data } = this.state;
 
     console.log(data.earthPornData.length);
     console.log('=================================');
@@ -42,9 +47,27 @@ class App extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <View style={styles.buttons}>
+          <View style={styles.buttonWrapper}>
+            <Button
+              onPress={() => {
+                this.setState({ feed: 'peopleDyingData' });
+              }}
+              title="People Fucking Dying"
+              color="#841584"
+              accessibilityLabel="See people fucking dying" />
+          </View>
+          <View style={styles.buttonWrapper}>
+            <Button
+              onPress={() => {
+                this.setState({ feed: 'earthPornData' });
+              }}
+              title="Earth Porn"
+              color="#841584"
+              accessibilityLabel="See some earth porn" />
+          </View>
+        </View>
+        {feed !== null && <Feed show={feed} data={data} />}
       </View>
     );
   }
@@ -54,8 +77,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
+    padding: 20,
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  buttonWrapper: {
+    padding: 10,
   },
 });
 
